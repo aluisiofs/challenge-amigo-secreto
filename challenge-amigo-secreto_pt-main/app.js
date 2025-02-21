@@ -38,67 +38,79 @@
 
     const amigos = [];
 
-function adicionarAmigo() {
-    const amigoInput = document.getElementById('amigo');
-    const amigo = amigoInput.value.trim();
-
-    if (!amigo) {
-        alert('Por favor, digite um nome válido.');
-        return;
-    }
-
-    if (amigos.includes(amigo)) {
-        alert('Este nome já foi adicionado.');
-        return;
-    }
-
-    amigos.push(amigo);
-    amigoInput.value = '';
-    atualizarListaAmigos();
-}
-
-function atualizarListaAmigos() {
-    const listaAmigos = document.getElementById('listaAmigos');
-    listaAmigos.innerHTML = amigos.map(amigo => `<li>${amigo}</li>`).join('');
-}
-
-function sortearAmigo() {
-    if (amigos.length < 2) {
-        alert('Adicione pelo menos dois amigos para realizar o sorteio.');
-        return;
-    }
-
-    const amigosSorteados = [...amigos];
-    const resultado = [];
-
-    while (amigosSorteados.length > 0) {
-        const amigo = amigosSorteados.shift(); // Remove o primeiro da lista
-        let index = Math.floor(Math.random() * amigosSorteados.length);
-
-        if (amigosSorteados.length === 1 && amigosSorteados[0] === amigo) {
-            // Se sobrar apenas um nome e for o mesmo, refaz o sorteio
-            return sortearAmigo();
-        }
-
-        while (amigosSorteados[index] === amigo) {
-            index = Math.floor(Math.random() * amigosSorteados.length);
-        }
-
-        const sorteado = amigosSorteados.splice(index, 1)[0]; // Remove o sorteado da lista
-        resultado.push(`${amigo} -> ${sorteado}`);
-    }
-
-    exibirResultadoSorteio(resultado);
-}
-
-function exibirResultadoSorteio(resultado) {
-    const resultadoUl = document.getElementById('resultado');
-    resultadoUl.innerHTML = resultado.map(item => `<li>${item}</li>`).join('');
-}
-
+    function adicionarAmigo() {
+        const input = document.getElementById("amigo");
+        const nome = input.value.trim();
     
-
-
+        if (!nome) {
+            alert("Digite um nome válido.");
+            return;
+        }
+        
+        if (amigos.includes(nome)) {
+            alert("Este nome já foi adicionado.");
+            return;
+        }
+    
+        amigos.push(nome);
+        input.value = "";
+        atualizarLista();
+    }
+    
+    function atualizarLista() {
+        const lista = document.getElementById("listaAmigos");
+        lista.innerHTML = "";
+        amigos.forEach((amigo, index) => {
+            const li = document.createElement("li");
+            li.textContent = amigo;
+            
+            const botaoRemover = document.createElement("button");
+            botaoRemover.textContent = "Remover";
+            botaoRemover.onclick = () => removerAmigo(index);
+            
+            li.appendChild(botaoRemover);
+            lista.appendChild(li);
+        });
+    }
+    
+    function removerAmigo(index) {
+        amigos.splice(index, 1);
+        atualizarLista();
+    }
+    
+    function sortearAmigo() {
+        if (amigos.length < 2) {
+            alert('Adicione pelo menos dois amigos para realizar o sorteio.');
+            return;
+        }
+    
+        const embaralhado = [...amigos].sort(() => Math.random() - 0.5);
+        let resultado = {};
+        
+        for (let i = 0; i < embaralhado.length; i++) {
+            const amigoAtual = embaralhado[i];
+            const amigoSorteado = embaralhado[(i + 1) % embaralhado.length];
+            resultado[amigoAtual] = amigoSorteado;
+        }
+        
+        localStorage.setItem("sorteioAmigoSecreto", JSON.stringify(resultado));
+        gerarLinksCompartilhamento(resultado);
+    }
+    
+    function gerarLinksCompartilhamento(resultado) {
+        const linkContainer = document.getElementById("linksCompartilhamento");
+        linkContainer.innerHTML = "";
+        
+        for (const [amigo, sorteado] of Object.entries(resultado)) {
+            const link = `${window.location.origin}/resultado.html?nome=${encodeURIComponent(amigo)}`;
+            const linkElement = document.createElement("p");
+            linkElement.innerHTML = `<a href="${link}" target="_blank">Compartilhe este link com ${amigo}</a>`;
+            linkContainer.appendChild(linkElement);
+        }
+        
+        alert("Os links foram gerados! Compartilhe com os participantes.");
+    }
+    
 
 
 
