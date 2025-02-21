@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Resultado do Amigo Secreto</title>
+</head>
+<body>
+    <main class="main-content">
+        <header class="header-banner">
+            <h1 class="main-title">Seu Amigo Secreto</h1>
+        </header>
+        
+        <section class="input-section">
+            <h2 class="section-title">Digite seu nome para ver seu amigo secreto</h2>
+            <div class="input-wrapper">
+                <input type="text" id="nomeUsuario" class="input-name" placeholder="Digite seu nome">
+                <button class="button-check" onclick="verificarSorteio()">Ver Amigo Secreto</button>
+            </div>
+            <p id="resultado" class="result-message"></p>
+        </section>
+    </main>
+    
+    <script>
+        function verificarSorteio() {
+            const nome = document.getElementById("nomeUsuario").value.trim();
+            const sorteio = JSON.parse(localStorage.getItem("sorteioAmigoSecreto")) || {};
+            
+            if (!nome || !sorteio[nome]) {
+                document.getElementById("resultado").textContent = "Nome não encontrado no sorteio.";
+                return;
+            }
+            
+            document.getElementById("resultado").textContent = `Seu amigo secreto é: ${sorteio[nome]}`;
+        }
+    </script>
+</body>
+</html>
