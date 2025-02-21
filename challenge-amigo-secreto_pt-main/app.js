@@ -38,44 +38,64 @@
 
     const amigos = [];
 
-    function adicionarAmigo() {
-        const amigoInput = document.getElementById('amigo');
-        const amigo = amigoInput.value.trim();
-    
-        if (amigo) {
-            amigos.push(amigo);
-            amigoInput.value = '';
-            atualizarListaAmigos();
-        } else {
-            alert('Por favor, digite um nome válido.');
+function adicionarAmigo() {
+    const amigoInput = document.getElementById('amigo');
+    const amigo = amigoInput.value.trim();
+
+    if (!amigo) {
+        alert('Por favor, digite um nome válido.');
+        return;
+    }
+
+    if (amigos.includes(amigo)) {
+        alert('Este nome já foi adicionado.');
+        return;
+    }
+
+    amigos.push(amigo);
+    amigoInput.value = '';
+    atualizarListaAmigos();
+}
+
+function atualizarListaAmigos() {
+    const listaAmigos = document.getElementById('listaAmigos');
+    listaAmigos.innerHTML = amigos.map(amigo => `<li>${amigo}</li>`).join('');
+}
+
+function sortearAmigo() {
+    if (amigos.length < 2) {
+        alert('Adicione pelo menos dois amigos para realizar o sorteio.');
+        return;
+    }
+
+    const amigosSorteados = [...amigos];
+    const resultado = [];
+
+    while (amigosSorteados.length > 0) {
+        const amigo = amigosSorteados.shift(); // Remove o primeiro da lista
+        let index = Math.floor(Math.random() * amigosSorteados.length);
+
+        if (amigosSorteados.length === 1 && amigosSorteados[0] === amigo) {
+            // Se sobrar apenas um nome e for o mesmo, refaz o sorteio
+            return sortearAmigo();
         }
-    }
-    
-    function atualizarListaAmigos() {
-        const listaAmigos = document.getElementById('listaAmigos');
-        listaAmigos.innerHTML = amigos.map(amigo => `<li>${amigo}</li>`).join('');
-    }
-    
-    function sortearAmigo() {
-        if (amigos.length === 0) {
-            alert('Por favor, adicione amigos à lista antes de sortear.');
-            return;
+
+        while (amigosSorteados[index] === amigo) {
+            index = Math.floor(Math.random() * amigosSorteados.length);
         }
-    
-        const amigosSorteados = [...amigos];
-        const resultado = amigosSorteados.map(amigo => {
-            const index = Math.floor(Math.random() * amigosSorteados.length);
-            const sorteado = amigosSorteados.splice(index, 1)[0];
-            return `${amigo} -> ${sorteado}`;
-        });
-    
-        exibirResultadoSorteio(resultado);
+
+        const sorteado = amigosSorteados.splice(index, 1)[0]; // Remove o sorteado da lista
+        resultado.push(`${amigo} -> ${sorteado}`);
     }
-    
-    function exibirResultadoSorteio(resultado) {
-        const resultadoUl = document.getElementById('resultado');
-        resultadoUl.innerHTML = resultado.map(item => `<li>${item}</li>`).join('');
-    }
+
+    exibirResultadoSorteio(resultado);
+}
+
+function exibirResultadoSorteio(resultado) {
+    const resultadoUl = document.getElementById('resultado');
+    resultadoUl.innerHTML = resultado.map(item => `<li>${item}</li>`).join('');
+}
+
     
 
 
