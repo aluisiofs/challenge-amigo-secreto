@@ -36,7 +36,47 @@
     //const resultadoU1 = documenut.getEelmentById('resultado') Pega se o elemento DOM com o id resultado, que deve ser a lista onde os resultados do sorteio serão exibidos
     //resultado.innerHTML = resultado.map(item => <li>${item}</li>).join('') utilizamos o metodo  de map() e join () para ytransformar cada item do array resultado e mum item de lista HTML e atualizar o conteudo da lista no DOM.
 
+    const amigos = [];
 
+    function adicionarAmigo() {
+        const amigoInput = document.getElementById('amigo');
+        const amigo = amigoInput.value.trim();
+    
+        if (amigo) {
+            amigos.push(amigo);
+            amigoInput.value = '';
+            atualizarListaAmigos();
+        } else {
+            alert('Por favor, digite um nome válido.');
+        }
+    }
+    
+    function atualizarListaAmigos() {
+        const listaAmigos = document.getElementById('listaAmigos');
+        listaAmigos.innerHTML = amigos.map(amigo => `<li>${amigo}</li>`).join('');
+    }
+    
+    function sortearAmigo() {
+        if (amigos.length === 0) {
+            alert('Por favor, adicione amigos à lista antes de sortear.');
+            return;
+        }
+    
+        const amigosSorteados = [...amigos];
+        const resultado = amigosSorteados.map(amigo => {
+            const index = Math.floor(Math.random() * amigosSorteados.length);
+            const sorteado = amigosSorteados.splice(index, 1)[0];
+            return `${amigo} -> ${sorteado}`;
+        });
+    
+        exibirResultadoSorteio(resultado);
+    }
+    
+    function exibirResultadoSorteio(resultado) {
+        const resultadoUl = document.getElementById('resultado');
+        resultadoUl.innerHTML = resultado.map(item => `<li>${item}</li>`).join('');
+    }
+    
 
 
 
