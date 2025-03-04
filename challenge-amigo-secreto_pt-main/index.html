@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -37,70 +37,11 @@
     </main>
 
     <script src="app.js" defer></script>
-</body>
-</html> -->
-
-<!--===================================================================================-->
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Amigo Secreto</title>
-</head>
-<body>
-    <main class="main-content">
-        <header class="header-banner">
-            <h1 class="main-title">Amigo Secreto</h1>
-        </header>
-        
-        <section class="input-section">
-            <h2 class="section-title">Digite o nome dos seus amigos</h2>
-            <div class="input-wrapper">
-                <input type="text" id="amigo" class="input-name" placeholder="Digite um nome">
-                <button class="button-add" onclick="adicionarAmigo()">Adicionar</button>
-            </div>
-           
-            <ul id="listaAmigos" class="name-list"></ul>
-            <div class="button-container">
-                <button class="button-draw" onclick="sortearAmigo()">Sortear amigo</button>
-            </div>
-            <div id="linksCompartilhamento" class="links-container"></div>
-        </section>
-    </main>
-
-    <script src="app.js" defer></script>
-</body>
-</html> 
-
-<!--=================================================================================================-->
-
-<!--
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Resultado do Amigo Secreto</title>
-</head>
-<body>
-    <main class="main-content">
-        <header class="header-banner">
-            <h1 class="main-title">Seu Amigo Secreto</h1>
-        </header>
-        
-        <section class="input-section">
-            <h2 class="section-title">Seu amigo secreto é:</h2>
-            <input type="hidden" id="nomeUsuario">
-            <p id="resultado" class="result-message">Carregando...</p>
-        </section>
-    </main>
-    
-    <script src="resultado.js" defer></script>
+    <script>
+        if (!localStorage.getItem('usuario')) {
+            localStorage.setItem('paginaAnterior', 'index');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>
-
--->
