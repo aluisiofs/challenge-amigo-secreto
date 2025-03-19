@@ -20,7 +20,7 @@ Este projeto é uma aplicação web para realizar sorteios de Amigo Secreto. Ele
 1. **Clone o repositório:**
 
    ```sh
-  git clone https://github.com/aluisiofs/challenge-amigo-secreto.git
+   git clone https://github.com/aluisiofs/challenge-amigo-secreto.git
 
 2.  Abra o arquivo `login.html` em seu navegador.
 
